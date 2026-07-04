@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互動遊戲評量：【布農小勇士的生活挑戰】</title>
+    <style>
+        :root {
+            --primary-color: #2b5c43;
+            --secondary-color: #e67e22;
+            --bg-color: #f4f6f0;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 8px solid var(--primary-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 25px;
+            border-bottom: 2px dashed #b5c7bc;
+            padding-bottom: 15px;
+        }
+
+        .scenario-box {
+            background-color: #edf2ee;
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 25px;
+        }
+
+        .scenario-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .bunun-quote {
+            font-size: 20px;
+            font-weight: bold;
+            color: #111;
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .hint-box {
+            background-color: #fef5ed;
+            border: 1px dashed var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            color: #c0392b;
+        }
+
+        .options-grid {
+            display: block;
+        }
+
+        .option-card {
+            background: #fdfdfd;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary-color);
+            background-color: #f9fbf9;
+        }
+
+        .option-card.correct {
+            border-color: #27ae60;
+            background-color: #e8f8f0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .option-card.wrong {
+            border-color: var(--accent-color);
+            background-color: #fdedec;
+            color: var(--accent-color);
+        }
+
+        .btn-check {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .btn-check:hover {
+            background-color: #1e4230;
+        }
+
+        #result-message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        .audio-icon {
+            margin-left: auto;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>互動遊戲評量：【布農小勇士的生活挑戰】</h1>
+    
+    <div class="scenario-box">
+        <div class="scenario-title">🌅 情境描述</div>
+        <p>早晨的太陽 <strong>(vali)</strong> 出現了！媽媽正在廚房準備早餐，她轉過頭對你大聲說了一句指令：</p>
+        <div class="bunun-quote">「Uu! Asa tu piningzavun masitsit.」</div>
+        <p><strong>評量任務：</strong>請根據媽媽說的話，選出正確的動作圖片與敘述，並試著大聲朗讀該動作的單字喔！</p>
+    </div>
+
+    <div class="hint-box">
+        <strong>💡 溫馨小提示：</strong><br>
+        小勇士，想想看當你吃完美味的早餐後，為了讓牙齒 <strong>(nipun)</strong> 保持乾淨 <strong>(ningzav)</strong>，你最需要做的『洗刷』動作是什麼呢？
+    </div>
+
+    <div class="options-grid">
+        <div class="option-card" onclick="selectOption(this, false)">
+            <span>(A) 拿著掃把在掃地</span>
+        </div>
+        <div class="option-card" onclick="selectOption(this, true)">
+            <span>(B) 拿著牙刷在刷牙 (masitsit) ★</span>
+        </div>
+        <div class="option-card" onclick="selectOption(this, false)">
+            <span>(C) 拿著臉盆在洗臉 (taldaqis)</span>
+        </div>
+        <div class="option-card" onclick="selectOption(this, false)">
+            <span>(D) 拿著雨傘在撐傘</span>
+        </div>
+    </div>
+
+    <div id="result-message"></div>
+</div>
+
+<script>
+    let answered = false;
+
+    function selectOption(element, isCorrect) {
+        if (answered) return;
+        
+        // 清除其他選項樣式
+        const cards = document.querySelectorAll('.option-card');
+        cards.forEach(card => {
+            card.classList.remove('correct', 'wrong');
+        });
+
+        const resultText = document.getElementById('result-message');
+
+        if (isCorrect) {
+            element.classList.add('correct');
+            resultText.innerHTML = "🎉 太棒了，布農小勇士！答對了！就是 <strong>masitsit (刷牙)</strong>！";
+            resultText.style.color = "#27ae60";
+            answered = true;
+        } else {
+            element.classList.add('wrong');
+            resultText.innerHTML = "❌ 再想想看，小勇士！留意提示裡的『牙齒 (nipun)』與『洗刷』動作喔！";
+            resultText.style.color = "#e74c3c";
+        }
+    }
+</script>
+
+</body>
+</html>
